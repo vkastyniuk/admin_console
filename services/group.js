@@ -1,93 +1,178 @@
 var logger = require('log4js').getLogger("groupService");
-var mongo = require('mongoskin');
-
-var db = mongo.db('mongodb://localhost:27017/admin_console');
-var groups = db.collection('groups');
+var UserModel = require('../models/user').UserModel;
+var GroupModel = require('../models/group').GroupModel;
 
 var service = {};
 service.findAll = function (page, callback) {
     logger.debug('Call findAll(' + JSON.stringify(page) + ')');
-    groups.count(function (err, count) {
+    GroupModel.count(function (err, count) {
         if (err) return callback(err, null);
-        groups.find({}, {
+        GroupModel.find({}, {}, {
             skip: page.number > 0 ? ((page.number - 1) * page.size) : 0,
             limit: page.size
-        }).toArray(function (err, groups) {
-            if (err) return callback(err, null);
-            callback(err, {
-                page: page.number,
-                size: page.size,
-                total: count,
-                content: groups
+        })
+            .select('-_id -__v')
+            .exec(function (err, groups) {
+                callback(err, {
+                    page: page.number,
+                    size: page.size,
+                    total: count,
+                    content: groups
+                });
             });
-        });
     });
 };
 
 service.find = function (groupName, callback) {
     logger.debug('Call findOne(\"' + groupName + '\")');
-    groups.findOne({groupName: groupName}, function (err, group) {
-        if (!group) {
-            var err = new Error('group not found');
-            err.status = 404;
-            callback(err);
-        } else callback(err, group);
-    });
+    GroupModel.findOne({name: groupName})
+        .select('-_id -__v')
+        .exec(function (err, group) {
+            if (!group) {
+                var err = new Error('not found');
+                err.status = 404;
+                callback(err);
+            } else callback(err, group);
+        });
 };
 
 service.insert = function (group, callback) {
     logger.debug('Call insert(' + JSON.stringify(group) + ')');
-    groups.insert(group, callback);
+    var groupModel = new GroupModel({
+        name: group.name,
+        title: group.title
+    });
+
+    groupModel.save(function (err) {
+        if (!err) {
+            logger.info("group created");
+            return callback(null, group);
+        } else {
+            if (err.name == 'ValidationError') {
+                var err = new Error('validation error');
+                err.status = 400;
+                callback(err);
+            } else {
+                callback(err);
+            }
+        }
+    });
 };
 
 service.update = function (groupName, update, callback) {
     logger.debug('Call update(\"' + groupName + '\", ' + JSON.stringify(update) + ')');
-    groups.update({groupName: groupName}, update, {}, function (err, rows) {
-        if (rows == 0) {
-            var err = new Error('group not found');
+    GroupModel.findOne({name: groupName}, function (err, group) {
+        if (!group) {
+            var err = new Error('not found');
             err.status = 404;
-            callback(err);
-        } else callback(err);
+            return callback(err);
+        }
+
+        group.name = update.name;
+        group.title = update.title;
+        group.save(function (err) {
+            if (!err) {
+                logger.info("group updated");
+                return callback(null, update);
+            } else {
+                if (err.name == 'ValidationError') {
+                    var err = new Error('validation error');
+                    err.status = 400;
+                    callback(err);
+                } else {
+                    callback(err);
+                }
+            }
+        });
     });
 };
 
-service.delete = function (groupName, callback) {
-    logger.debug('Call delete(\"' + groupName + '\")');
-    groups.remove({groupName: groupName}, function (err, rows) {
-        if (rows == 0) {
-            var err = new Error('group not found');
+service.remove = function (groupName, callback) {
+    logger.debug('Call remove(\"' + groupName + '\")');
+    GroupModel.findOne({name: groupName}, function (err, group) {
+        if (!group) {
+            var err = new Error('not found');
             err.status = 404;
-            callback(err);
-        } else callback(err);
+            return callback(err);
+        }
+
+        group.remove(function (err) {
+            if (!err) {
+                logger.info("group removed");
+            }
+            return callback(err);
+        });
     });
 };
 
-/*
+service.findGroupUsers = function (page, groupName, callback) {
+    logger.debug('Call findGroupUsers(' + JSON.stringify(page) + ', \"' + groupName + '\")');
+    GroupModel.findOne({name: groupName}, function (err, group) {
+        if (!group) {
+            var err = new Error('not found');
+            err.status = 404;
+            return callback(err);
+        }
 
- router.get('/:groupName/users', function (req, res, next) {
- // TODO: validate request params 'groupName'
- groupService.findGroupUsers(req.page, req.params.groupName, function (err, page) {
- if (err) next(err);
- else res.status(200).json(page);
- });
- });
+        UserModel.count({groups: group._id}, function (err, count) {
+            if (err) return callback(err, null);
+            UserModel.find({groups: group._id}, {}, {
+                skip: page.number > 0 ? ((page.number - 1) * page.size) : 0,
+                limit: page.size
+            })
+                .select('-groups -_id -__v')
+                .exec(function (err, groups) {
+                    callback(err, {
+                        page: page.number,
+                        size: page.size,
+                        total: count,
+                        content: groups
+                    });
+                });
+        });
+    });
+};
 
- router.post('/:groupName/users/:userName', function (req, res, next) {
- // TODO: validate request params 'groupName', 'userName'
- groupService.addGroupUser(req.params.groupName, req.params.userName, function (err) {
- if (err) next(err);
- else res.status(204).end();
- });
- });
+service.addGroupUser = function (groupName, userName, callback) {
+    logger.debug('Call addGroupUser(\"' + groupName + '\", \"' + userName + '\")');
+    GroupModel.findOne({name: groupName}, function (err, group) {
+        if (!group) {
+            var err = new Error('not found');
+            err.status = 404;
+            return callback(err);
+        }
 
- router.delete('/:groupName/users/:userName', function (req, res, next) {
- // TODO: validate request params 'groupName', 'userName'
- groupService.removeGroupUser(req.params.groupName, req.params.userName, function (err) {
- if (err) next(err);
- else res.status(204).end();
- });
- });
+        UserModel.findOne({userName: userName}, function (err, user) {
+            if (!user) {
+                var err = new Error('not found');
+                err.status = 404;
+                return callback(err);
+            }
 
- */
+            UserModel.findByIdAndUpdate(user._id, {'$addToSet': {groups: group._id}}, callback);
+        });
+    });
+};
+
+service.removeGroupUser = function (groupName, userName, callback) {
+    logger.debug('Call removeGroupUser(\"' + groupName + '\", \"' + userName + '\")');
+    GroupModel.findOne({name: groupName}, function (err, group) {
+        if (!group) {
+            var err = new Error('not found');
+            err.status = 404;
+            return callback(err);
+        }
+
+        UserModel.findOne({userName: userName}, function (err, user) {
+            if (!user) {
+                var err = new Error('not found');
+                err.status = 404;
+                return callback(err);
+            }
+
+            UserModel.findByIdAndUpdate(user._id, {'$pull': {groups: group._id}}, callback);
+        });
+    });
+};
 
 module.exports = service;
