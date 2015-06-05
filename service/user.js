@@ -1,5 +1,5 @@
 var logger = require('log4js').getLogger("userService");
-var UserModel = require('../models/user').UserModel;
+var UserModel = require('../model/user').UserModel;
 
 var service = {};
 service.findAll = function (page, callback) {
@@ -52,6 +52,11 @@ service.insert = function (user, callback) {
             if (err.name == 'ValidationError') {
                 var err = new Error('validation error');
                 err.status = 400;
+                callback(err);
+            }
+            if (err.code == 11000) {
+                var err = new Error('already exists');
+                err.status = 409;
                 callback(err);
             } else {
                 callback(err);

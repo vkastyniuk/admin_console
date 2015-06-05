@@ -1,6 +1,6 @@
 var logger = require('log4js').getLogger("groupService");
-var UserModel = require('../models/user').UserModel;
-var GroupModel = require('../models/group').GroupModel;
+var UserModel = require('../model/user').UserModel;
+var GroupModel = require('../model/group').GroupModel;
 
 var service = {};
 service.findAll = function (page, callback) {
@@ -51,6 +51,11 @@ service.insert = function (group, callback) {
             if (err.name == 'ValidationError') {
                 var err = new Error('validation error');
                 err.status = 400;
+                callback(err);
+            }
+            if (err.code == 11000) {
+                var err = new Error('already exists');
+                err.status = 409;
                 callback(err);
             } else {
                 callback(err);

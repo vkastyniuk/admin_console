@@ -5,8 +5,8 @@ var config = require('./config');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-var users = require('./routes/users');
-var groups = require('./routes/groups');
+var users = require('./route/user');
+var groups = require('./route/group');
 
 mongoose.connect(config.get('mongodb:url'));
 

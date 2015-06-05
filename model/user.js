@@ -6,6 +6,8 @@ exports.UserModel = mongoose.model('User',
         userName: {
             type: String,
             required: true,
+            unique: true,
+            lowercase: true,
             min: 4,
             max: 20,
             match: /^([\w\d-\.]*)?$/
@@ -27,6 +29,7 @@ exports.UserModel = mongoose.model('User',
         email: {
             type: String,
             required: true,
+            unique: true,
             min: 3,
             max: 30,
             match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/

@@ -1,5 +1,5 @@
 var express = require('express');
-var groupService = require('../services/group');
+var groupService = require('../service/group');
 
 var router = express.Router();
 router.get('/', function (req, res, next) {
