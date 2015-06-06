@@ -1,9 +1,9 @@
 var express = require('express');
-var userService = require('../service/user');
+var userService = require('../services/user');
 
 var router = express.Router();
 router.get('/', function (req, res, next) {
-    userService.findAll(req.page, function (err, page) {
+    userService.findAll(req.page, req.query.criteria, function (err, page) {
         if (err) next(err);
         else res.status(200).json(page);
     });

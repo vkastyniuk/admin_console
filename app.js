@@ -1,12 +1,12 @@
 var logger = require('log4js').getLogger("app");
 var express = require('express');
 var morgan = require('morgan');
-var config = require('./config');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-var users = require('./route/user');
-var groups = require('./route/group');
+var users = require('./routes/user');
+var groups = require('./routes/group');
+var config = require('./config');
 
 mongoose.connect(config.get('mongodb:url'));
 
@@ -26,8 +26,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/api/v0.1/groups', groups);
-app.use('/api/v0.1/users', users);
+app.use('/api/v1.0/groups', groups);
+app.use('/api/v1.0/users', users);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

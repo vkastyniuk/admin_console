@@ -1,13 +1,20 @@
 var logger = require('log4js').getLogger("groupService");
-var UserModel = require('../model/user').UserModel;
-var GroupModel = require('../model/group').GroupModel;
+var UserModel = require('../models/user').UserModel;
+var GroupModel = require('../models/group').GroupModel;
 
 var service = {};
-service.findAll = function (page, callback) {
+service.findAll = function (page, criteria, callback) {
     logger.debug('Call findAll(' + JSON.stringify(page) + ')');
     GroupModel.count(function (err, count) {
         if (err) return callback(err, null);
-        GroupModel.find({}, {}, {
+
+        var conditions = {};
+        if (criteria) {
+            var regexp = new RegExp(criteria, "i");
+            conditions = {$or: [{name: regexp}, {title: regexp}]};
+        }
+
+        GroupModel.find(conditions, {}, {
             skip: page.number > 0 ? ((page.number - 1) * page.size) : 0,
             limit: page.size
         })
@@ -110,7 +117,7 @@ service.remove = function (groupName, callback) {
     });
 };
 
-service.findGroupUsers = function (page, groupName, callback) {
+service.findGroupUsers = function (page, groupName, criteria, callback) {
     logger.debug('Call findGroupUsers(' + JSON.stringify(page) + ', \"' + groupName + '\")');
     GroupModel.findOne({name: groupName}, function (err, group) {
         if (!group) {
@@ -121,7 +128,16 @@ service.findGroupUsers = function (page, groupName, callback) {
 
         UserModel.count({groups: group._id}, function (err, count) {
             if (err) return callback(err, null);
-            UserModel.find({groups: group._id}, {}, {
+
+            var conditions = {};
+            if (criteria) {
+                var regexp = new RegExp(criteria, "i");
+                conditions = {$and: [{groups: group._id}, {$or: [{userName: regexp}, {firstName: regexp}, {lastName: regexp}, {email: regexp}]}]};
+            } else {
+                conditions = {groups: group._id}
+            }
+
+            UserModel.find(conditions, {}, {
                 skip: page.number > 0 ? ((page.number - 1) * page.size) : 0,
                 limit: page.size
             })
