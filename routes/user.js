@@ -3,7 +3,7 @@ var userService = require('../services/user');
 
 var router = express.Router();
 router.get('/', function (req, res, next) {
-    userService.findAll(req.page, function (err, page) {
+    userService.findAll(req.page, req.query.criteria, function (err, page) {
         if (err) next(err);
         else res.status(200).json(page);
     });
@@ -24,9 +24,9 @@ router.get('/:userName', function (req, res, next) {
 });
 
 router.put('/:userName', function (req, res, next) {
-    userService.update(req.params.userName, req.body, function (err) {
+    userService.update(req.params.userName, req.body, function (err, user) {
         if (err) next(err);
-        else res.status(204).end();
+        else res.status(200).json(user);
     });
 });
 

@@ -2,11 +2,18 @@ var logger = require('log4js').getLogger("userService");
 var UserModel = require('../models/user').UserModel;
 
 var service = {};
-service.findAll = function (page, callback) {
+service.findAll = function (page, criteria, callback) {
     logger.debug('Call findAll(' + JSON.stringify(page) + ')');
     UserModel.count(function (err, count) {
         if (err) return callback(err, null);
-        UserModel.find({}, {}, {
+
+        var conditions = {};
+        if (criteria) {
+            var regexp = new RegExp(criteria, "i");
+            conditions = {$or: [{userName: regexp}, {firstName: regexp}, {lastName: regexp}, {email: regexp}]};
+        }
+
+        UserModel.find(conditions, {}, {
             skip: page.number > 0 ? ((page.number - 1) * page.size) : 0,
             limit: page.size
         })
@@ -52,6 +59,11 @@ service.insert = function (user, callback) {
             if (err.name == 'ValidationError') {
                 var err = new Error('validation error');
                 err.status = 400;
+                callback(err);
+            }
+            if (err.code == 11000) {
+                var err = new Error('already exists');
+                err.status = 409;
                 callback(err);
             } else {
                 callback(err);

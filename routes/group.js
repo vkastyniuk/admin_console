@@ -3,7 +3,7 @@ var groupService = require('../services/group');
 
 var router = express.Router();
 router.get('/', function (req, res, next) {
-    groupService.findAll(req.page, function (err, page) {
+    groupService.findAll(req.page, req.query.criteria, function (err, page) {
         if (err) next(err);
         else res.status(200).json(page);
     });
@@ -38,7 +38,7 @@ router.delete('/:groupName', function (req, res, next) {
 });
 
 router.get('/:groupName/users', function (req, res, next) {
-    groupService.findGroupUsers(req.page, req.params.groupName, function (err, page) {
+    groupService.findGroupUsers(req.page, req.params.groupName, req.query.criteria, function (err, page) {
         if (err) next(err);
         else res.status(200).json(page);
     });

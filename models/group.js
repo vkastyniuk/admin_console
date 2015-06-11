@@ -5,6 +5,8 @@ exports.GroupModel = mongoose.model('Group',
         name: {
             type: String,
             required: true,
+            unique: true,
+            lowercase: true,
             min: 4,
             max: 20,
             match: /^([\w\d-\.]*)?$/
