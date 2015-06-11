@@ -1,0 +1,45 @@
+<div class="row org-settings-header">
+    <div class="col-md-3">
+        Total users: <strong>{{totalItems}}</strong>
+    </div>
+    <div class="pull-right col-md-3" style="padding: 0;">
+        <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
+               ng-model-options="{ debounce: 100 }">
+    </div>
+</div>
+<div class="entity-listing">
+    <div class="row entity-row" ng-repeat="user in users">
+        <div class="col-md-7">
+            <div class="entity-title">
+                <i class="fa fa-user"></i>
+                {{user.userName}}
+            </div>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-sm btn-danger" ng-click="removeUser(user.userName)"
+                    ng-disabled="deleting">Remove
+            </button>
+        </div>
+    </div>
+    <div class="row pagination-panel" ng-show="numPages > 1">
+        <pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize"
+                    class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"
+                    ng-change="pageChanged()"/>
+        <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
+    </div>
+</div>
+
+
+<form method="post" name="inviteUserForm" id="inviteUserForm" ng-submit="inviteUser(user.name)"
+      ng-show="isOwnedOrganization" style="margin-top: 50px">
+    <div class="col-md-4">
+        <input id="userName" name="userName" class="form-control" placeholder="User Name or Email" ng-model="user.name"
+               required="" ng-pattern="/^.{1,255}$/">
+    </div>
+    <div class="col-md-2">
+        <button disabled="disabled" class="btn btn-default" type="submit"
+                ng-disabled="inviting || inviteUserForm.$invalid">
+            Invite User
+        </button>
+    </div>
+</form>

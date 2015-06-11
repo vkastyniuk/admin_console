@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Admin Console</title>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/pb-admin.css"/>
+    <link rel="stylesheet" href="css/console.css"/>
+    <link rel="stylesheet" href="libs/font-awesome-4.2.0/css/font-awesome.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,500,700,100,900,400italic&subset=latin,latin-ext'
+          rel='stylesheet' type='text/css'>
+</head>
+<body ng-app="console" ng-cloak>
+<div class="loading-box" ng-show="loadingTracker.active()"><i class="fa fa-spin fa-spinner"></i></div>
+<div class="row main-panel">
+    <div class="col-md-12">
+        <div class="organization-header-element">
+            <div class="pull-right">
+                <ul class="nav nav-pills">
+                    <li ng-class="{active: isActive('users', user.settings)}">
+                        <a ui-sref="users" title="Manage users">
+                            <i class="fa fa-user"></i>
+                            Users
+                        </a>
+                    </li>
+                    <li ng-class="{active: isActive('groups', 'group.settings', 'group.users')}">
+                        <a ui-sref="groups" title="Manage groups">
+                            <i class="fa fa-group"></i>
+                            Groups
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2 tab-content" ui-view>
+        </div>
+    </div>
+</div>
+
+<!-- external libraries-->
+<script src="libs/jquery/dist/jquery.min.js"></script>
+<script src="libs/angular/angular.js"></script>
+<script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="libs/angular-promise-tracker/promise-tracker.js"></script>
+<script src="libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="libs/xregexp/xregexp-all.js"></script>
+
+<script src="module.js"></script>
+<script src="config/properties.js"></script>
+<script src="services/user-service.js"></script>
+<script src="services/group-service.js"></script>
+<script src="directives/directives.js"></script>
+<script src="controllers/groups-controller.js"></script>
+<script src="controllers/group-controller.js"></script>
+<script src="controllers/group-settings-controller.js"></script>
+<script src="controllers/group-users-controller.js"></script>
+<script src="controllers/user-controller.js"></script>
+<script src="controllers/user-settings-controller.js"></script>
+<script src="controllers/users-controller.js"></script>
+
+</body>
+</html>

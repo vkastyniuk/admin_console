@@ -1,0 +1,40 @@
+<div class="row org-settings-header">
+    <div class="col-md-3">
+        Total groups: <strong>{{organization.groups.length}}</strong>
+    </div>
+    <div class="pull-right col-md-3" style="padding: 0;">
+        <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
+               ng-model-options="{ debounce: 500 }">
+    </div>
+</div>
+
+<div class="entity-listing">
+    <pre ng-show="organization.groups.length == 0">The {{organization.name}} organization doesn't have any groups.</pre>
+    <div class="row entity-row" ng-repeat="group in organization.groups | filter:searchText">
+        <div class="col-md-7">
+            <div class="entity-title">
+                <i class="fa fa-group"></i>
+                <a href="{{config.webAppPath}}/org/edit/{{organization.name}}/groups/{{group.name}}">{{group.name}}</a>
+            </div>
+        </div>
+        <div class="pull-right" ng-show="isOwnedOrganization">
+            <button class="btn btn-sm btn-danger" ng-click="removeGroup(group.name)"
+                    ng-disabled="deleting || group.name == 'OWNERS' || group.name == 'MEMBERS'">Delete
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--<form method="post" name="newGroupForm" id="newGroupForm" ng-submit="createGroup(group)" ng-show="isOwnedOrganization" style="margin-top: 50px">
+    <div class="form-group col-md-4">
+        <input id="groupName" name="groupName" class="form-control" placeholder="Group Name" ng-model="group.name"
+               required="" ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
+        <span class="description">Must be alphanumeric.</span>
+    </div>
+    <div class="col-md-2">
+        <button disabled="disabled" class="btn btn-default" type="submit"
+                ng-disabled="creating || newGroupForm.$invalid || alreadyExists(group.name)">
+            Create Group
+        </button>
+    </div>
+</form>-->

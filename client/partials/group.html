@@ -1,0 +1,28 @@
+<ol class="breadcrumb">
+    <li>
+        <a class="back" ui-sref="groups">
+            <i class="fa fa-chevron-left"></i> Groups
+        </a>
+    </li>
+    <li class="active">{{group.title}}</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-class="{active: isActive('group.settings')}">
+                <a ui-sref="group.settings" title="Edit group's settings">
+                    <i class="fa fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+            <li ng-class="{active: isActive('group.users')}">
+                <a ui-sref="group.users" title="Manage group's users">
+                    <i class="fa fa-user"></i>
+                    Users
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9" style="padding: 15px" ui-view></div>
+</div>

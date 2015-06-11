@@ -1,0 +1,39 @@
+<div class="row">
+    <form class="form-horizontal" id="userSettingsForm" name="userSettingsForm" ng-submit="save()">
+        <div class="form-group">
+            <label for="userName" class="col-md-2 control-label">Name</label>
+
+            <div class="col-md-6">
+                <input id="userName" class="form-control" ng-model="user.userName" required=""
+                       ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
+            </div>
+
+            <label for="firstName" class="col-md-2 control-label">First Name</label>
+
+            <div class="col-md-6">
+                <input id="firstName" class="form-control" ng-model="user.firstName" required=""
+                       ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
+            </div>
+
+            <label for="lastName" class="col-md-2 control-label">Last Name</label>
+
+            <div class="col-md-6">
+                <input id="lastName" class="form-control" ng-model="user.lastName" required=""
+                       ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
+            </div>
+
+            <label for="email" class="col-md-2 control-label">Email</label>
+
+            <div class="col-md-6">
+                <input id="email" class="form-control" ng-model="user.email" required=""
+                       ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default"
+                        ng-disabled="updating || userSettingsForm.$invalid">Submit
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

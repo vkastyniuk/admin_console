@@ -1,0 +1,48 @@
+<div class="control-panel">
+    <div class="row">
+        <form method="post" name="addUserForm" id="addUserForm" ng-submit="addUser(user.name)"
+              ng-show="isOwnedOrganization">
+            <div class="col-md-4" style="padding: 0;">
+                <auto-complete id="userName" name="userName" class="form-control" placeholder="User Name" type="text"
+                               auto-complete-callback="searchUserCallback"
+                               auto-complete-item-template="{{result.userName}}"
+                               auto-complete-select="userName"
+                               ng-model="user.userName"
+                               ng-pattern="/^(?![0-9])([a-zA-Z0-9_]{1,255})$/"
+                               required></auto-complete>
+            </div>
+            <div class="col-md-2">
+                <button disabled="disabled" class="btn btn-default" type="submit"
+                        ng-disabled="adding || addUserForm.$invalid">
+                    Add User
+                </button>
+            </div>
+        </form>
+        <div class="pull-right col-md-3" style="padding: 0;">
+            <input class="form-control" placeholder="Filter..." ng-model="searchText"
+                   ng-model-options="{ debounce: 500 }">
+        </div>
+    </div>
+</div>
+<div class="entity-listing">
+    <pre ng-show="users.length == 0">The {{group.title}} group doesn't have any members.</pre>
+    <pre ng-show="users.length > 0">{{totalItems}} {{totalItems == 1 ? 'user' : 'users'}} in the {{group.title}} group</pre>
+    <div class="row entity-row" ng-repeat="user in users">
+        <div class="col-md-7">
+            <div class="entity-title">
+                <i class="fa fa-user"></i>
+                {{user.userName}}
+            </div>
+        </div>
+        <div class="pull-right">
+            <button class="btn btn-sm btn-danger" ng-click="removeUser(user.userName)" ng-disabled="deleting">Remove
+            </button>
+        </div>
+    </div>
+    <div class="row pagination-panel" ng-show="numPages > 1">
+        <pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize"
+                    class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"
+                    ng-change="pageChanged()"/>
+        <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
+    </div>
+</div>

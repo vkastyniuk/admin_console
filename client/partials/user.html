@@ -1,0 +1,23 @@
+<ol class="breadcrumb">
+    <li>
+        <a class="back" ui-sref="users">
+            <i class="fa fa-chevron-left"></i> Users
+        </a>
+    </li>
+    <li class="active"> {{user.firstName}} {{user.lastName}}</li>
+</ol>
+
+<div class="row">
+    <div class="col-md-3" style="padding-left: 0;">
+        <ul class="nav nav-pills nav-stacked">
+            <li ng-class="{active: isActive('user.settings')}">
+                <a ui-sref="user.settings" title="Edit user's settings">
+                    <i class="fa fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9" ui-view style="padding: 15px">
+    </div>
+</div>
