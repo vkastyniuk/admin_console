@@ -3,9 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('UsersController', ['$scope', '$state', 'promiseTracker', 'groupService',
-            function ($scope, $state, promiseTracker, groupService) {
-                $scope.loadingTracker = promiseTracker({activationDelay: 500});
+        .controller('GroupsController', ['$scope', '$state', 'groupService',
+            function ($scope, $state, groupService) {
                 $scope.currentPage = 1;
                 $scope.itemsPerPage = 25;
                 $scope.maxSize = 5;
@@ -15,7 +14,7 @@
                         groupService.loadPage($scope.currentPage, $scope.itemsPerPage, $scope.searchText)
                             .then(function (data) {
                                 $scope.totalItems = data.total;
-                                $scope.users = data.content;
+                                $scope.groups = data.content;
                             })
                     );
                 };

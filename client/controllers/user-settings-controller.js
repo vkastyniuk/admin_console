@@ -6,12 +6,13 @@
         .controller('UserSettingsController', ['$scope', '$state', 'userService',
             function ($scope, $state, userService) {
                 $scope.userName = $scope.user.userName;
-                $scope.changeName = function () {
+                $scope.update = function () {
                     $scope.updating = true;
-                    $scope.loadingTracker.addPromise(userService.update($scope.user.userName, {name: $scope.userName})
+                    $scope.loadingTracker.addPromise(
+                        userService.update($scope.userName, $scope.user)
                         .then(function () {
                             $scope.updating = false;
-                            $state.go('user.settings', {user: $scope.userName});
+                            $state.go('index.user.settings', {user: $scope.userName});
                         }, function () {
                             $scope.updating = false;
                         }));

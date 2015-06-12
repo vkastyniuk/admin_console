@@ -3,8 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .factory('groupService', ['$rootScope', 'config',
-            function ($rootScope, config) {
+        .factory('groupService', ['$rootScope', '$http', 'config',
+            function ($rootScope, $http, config) {
                 var baseUrl = config.apiPath;
                 var service = {};
 
@@ -17,6 +17,8 @@
                             page: pageNumber,
                             size: pageSize
                         }
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 
@@ -24,6 +26,8 @@
                     return $http({
                         method: 'GET',
                         url: baseUrl + '/groups/' + name
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 
@@ -32,6 +36,8 @@
                         method: 'POST',
                         url: baseUrl + '/groups',
                         data: user
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 
@@ -60,6 +66,8 @@
                             page: pageNumber,
                             size: pageSize
                         }
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 

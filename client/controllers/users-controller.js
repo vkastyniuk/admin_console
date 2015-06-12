@@ -3,9 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('UsersController', ['$scope', '$state', 'promiseTracker', 'userService',
-            function ($scope, $state, promiseTracker, userService) {
-                $scope.loadingTracker = promiseTracker({activationDelay: 500});
+        .controller('UsersController', ['$scope', '$state', 'userService',
+            function ($scope, $state, userService) {
                 $scope.currentPage = 1;
                 $scope.itemsPerPage = 25;
                 $scope.maxSize = 5;

@@ -3,8 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .factory('userService', ['$rootScope', 'config',
-            function ($rootScope, config) {
+        .factory('userService', ['$rootScope', '$http', 'config',
+            function ($rootScope, $http, config) {
                 var baseUrl = config.apiPath;
                 var service = {};
 
@@ -17,6 +17,8 @@
                             page: pageNumber,
                             size: pageSize
                         }
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 
@@ -24,6 +26,8 @@
                     return $http({
                         method: 'GET',
                         url: baseUrl + '/users/' + name
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 
@@ -32,6 +36,8 @@
                         method: 'POST',
                         url: baseUrl + '/users',
                         data: user
+                    }).then(function(response) {
+                        return response.data;
                     });
                 };
 

@@ -3,24 +3,30 @@
 (function (angular) {
 
     angular.module('console', ['ajoslin.promise-tracker', 'ui.bootstrap', 'ui.router', 'console.config', 'console.directives'])
-        .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-            function ($stateProvider, $urlRouterProvider, $locationProvider) {
-                $urlRouterProvider.when('/groups/{group}', '/edit/{org}/groups/{group}/settings');
-                $urlRouterProvider.when('/users/{user}', '/users/{user}/settings');
-
+        .config(['$stateProvider', '$locationProvider',
+            function ($stateProvider, $locationProvider) {
                 $locationProvider.html5Mode({
-                    enabled: true
+                    enabled: true,
+                    requireBase: false
                 });
 
                 $stateProvider
-                    .state('users', {
+                    .state('index', {
+                        url: '',
+                        abstract: true,
+                        template: '<div ui-view></div>',
+                        controller: 'MainController'
+                    })
+
+                    .state('index.users', {
                         url: '/users',
                         templateUrl: 'partials/users.html',
                         controller: 'UsersController'
                     })
 
-                    .state('user', {
-                        url: '/user/{user}',
+                    .state('index.user', {
+                        url: '/users/{user}',
+                        abstract: true,
                         templateUrl: 'partials/user.html',
                         controller: 'UserController',
                         resolve: {
@@ -30,20 +36,21 @@
                         }
                     })
 
-                    .state('user.settings', {
+                    .state('index.user.settings', {
                         url: '/settings',
                         templateUrl: 'partials/user-settings.html',
                         controller: 'UserSettingsController'
                     })
 
-                    .state('groups', {
+                    .state('index.groups', {
                         url: '/groups',
                         templateUrl: 'partials/groups.html',
                         controller: 'GroupsController'
                     })
 
-                    .state('group', {
+                    .state('index.group', {
                         url: '/groups/{group}',
+                        abstract: true,
                         templateUrl: 'partials/group.html',
                         controller: 'GroupController',
                         resolve: {
@@ -53,13 +60,13 @@
                         }
                     })
 
-                    .state('group.settings', {
+                    .state('index.group.settings', {
                         url: '/settings',
                         templateUrl: 'partials/group-settings.html',
                         controller: 'GroupSettingsController'
                     })
 
-                    .state('group.users', {
+                    .state('index.group.users', {
                         url: '/users',
                         templateUrl: 'partials/group-users.html',
                         controller: 'GroupUsersController'

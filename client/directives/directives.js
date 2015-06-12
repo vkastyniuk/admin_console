@@ -21,7 +21,7 @@
             };
         })
 
-        .directive('ngPattern', function () {
+        /*.directive('ngPattern', function () {
             return {
                 restrict: 'A',
                 require: '?ngModel',
@@ -202,6 +202,6 @@
                     document.body.appendChild(searchPopup[0]);
                 }
             }
-        }]);
+        }]);*/
 
 }(angular));

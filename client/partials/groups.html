@@ -1,6 +1,6 @@
 <div class="row org-settings-header">
     <div class="col-md-3">
-        Total groups: <strong>{{organization.groups.length}}</strong>
+        Total groups: <strong>{{groups.length}}</strong>
     </div>
     <div class="pull-right col-md-3" style="padding: 0;">
         <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
@@ -9,19 +9,30 @@
 </div>
 
 <div class="entity-listing">
-    <pre ng-show="organization.groups.length == 0">The {{organization.name}} organization doesn't have any groups.</pre>
-    <div class="row entity-row" ng-repeat="group in organization.groups | filter:searchText">
-        <div class="col-md-7">
+    <pre ng-show="groups.length == 0">There are no any groups.</pre>
+    <div class="row entity-row" ng-repeat="group in groups | filter:searchText">
+        <div class="col-md-5">
             <div class="entity-title">
                 <i class="fa fa-group"></i>
-                <a href="{{config.webAppPath}}/org/edit/{{organization.name}}/groups/{{group.name}}">{{group.name}}</a>
+                <a href="/groups/{{group.name}}">{{group.title}}</a>
             </div>
         </div>
-        <div class="pull-right" ng-show="isOwnedOrganization">
+        <div class="col-md-5">
+            <div class="entity-title">
+                {{group.name}}
+            </div>
+        </div>
+        <div class="pull-right">
             <button class="btn btn-sm btn-danger" ng-click="removeGroup(group.name)"
-                    ng-disabled="deleting || group.name == 'OWNERS' || group.name == 'MEMBERS'">Delete
+                    ng-disabled="deleting">Delete
             </button>
         </div>
+    </div>
+    <div class="row pagination-panel" ng-show="numPages > 1">
+        <pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize"
+                    class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"
+                    ng-change="pageChanged()"/>
+        <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
     </div>
 </div>
 

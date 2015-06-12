@@ -3,9 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('UserController', ['$scope', '$state', 'promiseTracker', 'user',
-            function ($scope, $state, promiseTracker, user) {
-                $scope.loadingTracker = promiseTracker({activationDelay: 500});
+        .controller('UserController', ['$scope', '$state', 'user',
+            function ($scope, $state, user) {
                 $scope.user = user;
             }]);
 

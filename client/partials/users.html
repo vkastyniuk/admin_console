@@ -9,10 +9,25 @@
 </div>
 <div class="entity-listing">
     <div class="row entity-row" ng-repeat="user in users">
-        <div class="col-md-7">
+        <div class="col-md-3">
             <div class="entity-title">
                 <i class="fa fa-user"></i>
-                {{user.userName}}
+                <a href="/users/{{user.userName}}">{{user.userName}}</a>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="entity-title">
+                {{user.firstName}}
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="entity-title">
+                {{user.lastName}}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="entity-title">
+                {{user.email}}
             </div>
         </div>
         <div class="pull-right">
@@ -28,18 +43,3 @@
         <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
     </div>
 </div>
-
-
-<form method="post" name="inviteUserForm" id="inviteUserForm" ng-submit="inviteUser(user.name)"
-      ng-show="isOwnedOrganization" style="margin-top: 50px">
-    <div class="col-md-4">
-        <input id="userName" name="userName" class="form-control" placeholder="User Name or Email" ng-model="user.name"
-               required="" ng-pattern="/^.{1,255}$/">
-    </div>
-    <div class="col-md-2">
-        <button disabled="disabled" class="btn btn-default" type="submit"
-                ng-disabled="inviting || inviteUserForm.$invalid">
-            Invite User
-        </button>
-    </div>
-</form>
