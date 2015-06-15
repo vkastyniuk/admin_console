@@ -20,14 +20,14 @@
 
                     .state('index.users', {
                         url: '/users',
-                        templateUrl: 'partials/users.html',
+                        templateUrl: '/partials/users.html',
                         controller: 'UsersController'
                     })
 
                     .state('index.user', {
                         url: '/users/{user}',
                         abstract: true,
-                        templateUrl: 'partials/user.html',
+                        templateUrl: '/partials/user.html',
                         controller: 'UserController',
                         resolve: {
                             user: ['$stateParams', 'userService', function ($stateParams, userService) {
@@ -38,20 +38,20 @@
 
                     .state('index.user.settings', {
                         url: '/settings',
-                        templateUrl: 'partials/user-settings.html',
+                        templateUrl: '/partials/user-settings.html',
                         controller: 'UserSettingsController'
                     })
 
                     .state('index.groups', {
                         url: '/groups',
-                        templateUrl: 'partials/groups.html',
+                        templateUrl: '/partials/groups.html',
                         controller: 'GroupsController'
                     })
 
                     .state('index.group', {
                         url: '/groups/{group}',
                         abstract: true,
-                        templateUrl: 'partials/group.html',
+                        templateUrl: '/partials/group.html',
                         controller: 'GroupController',
                         resolve: {
                             group: ['$stateParams', 'groupService', function ($stateParams, groupService) {
@@ -62,13 +62,13 @@
 
                     .state('index.group.settings', {
                         url: '/settings',
-                        templateUrl: 'partials/group-settings.html',
+                        templateUrl: '/partials/group-settings.html',
                         controller: 'GroupSettingsController'
                     })
 
                     .state('index.group.users', {
                         url: '/users',
-                        templateUrl: 'partials/group-users.html',
+                        templateUrl: '/partials/group-users.html',
                         controller: 'GroupUsersController'
                     })
             }]);

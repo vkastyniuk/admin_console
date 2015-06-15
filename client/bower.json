@@ -1,11 +1,11 @@
 {
-  "name": "console-webapp",
-  "version": "0.0.1",
-  "homepage": "https://github.com/WPMedia/console-webapp",
+  "name": "admin-console",
+  "version": "1.0.0",
+  "homepage": "https://github.com/vkastyniuk/admin-console/client",
   "authors": [
-    "LukeMason <lukemason9@gmail.com>"
+    "Viachaslau Kastyniuk <viachaslau.kastyniuk@gmail.com>"
   ],
-  "description": "Admiral FE",
+  "description": "Admin Console",
   "license": "NONE",
   "private": true,
   "dependencies": {
@@ -15,13 +15,10 @@
     "angular-promise-tracker": "2.1.0",
     "font-awesome": "4.2.0",
     "jquery": "2.1.1",
-    "ng-timeago": "0.0.1",
     "xregexp": "2.0.0"
   },
   "ignore": [
     "**/.*",
-    "libs",
-    "test",
-    "tests"
+    "libs"
   ]
 }
