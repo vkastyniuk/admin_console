@@ -46,7 +46,7 @@
                  }));
                  };*/
 
-                $scope.removeUser = function (user) {
+                $scope.remove = function (user) {
                     if (window.confirm('Are you sure you want to remove ' + user + ' ?')) {
                         $scope.deleting = true;
                         $scope.loadingTracker.addPromise(userService.remove(user)

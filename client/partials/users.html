@@ -1,8 +1,8 @@
-<div class="row org-settings-header">
+<div class="row entity-listing-header">
     <div class="col-md-3">
         Total users: <strong>{{totalItems}}</strong>
     </div>
-    <div class="pull-right col-md-3" style="padding: 0;">
+    <div class="col-md-3 pull-right">
         <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
                ng-model-options="{ debounce: 100 }">
     </div>
@@ -12,7 +12,7 @@
         <div class="col-md-3">
             <div class="entity-title">
                 <i class="fa fa-user"></i>
-                <a href="/users/{{user.userName}}">{{user.userName}}</a>
+                <a href="/users/{{user.userName}}/settings">{{user.userName}}</a>
             </div>
         </div>
         <div class="col-md-2">
@@ -30,10 +30,12 @@
                 {{user.email}}
             </div>
         </div>
-        <div class="pull-right">
-            <button class="btn btn-sm btn-danger" ng-click="removeUser(user.userName)"
-                    ng-disabled="deleting">Remove
-            </button>
+        <div class="col-md-2">
+            <div class=" pull-right">
+                <button class="btn btn-sm btn-danger" ng-click="remove(user.userName)"
+                        ng-disabled="deleting">Remove
+                </button>
+            </div>
         </div>
     </div>
     <div class="row pagination-panel" ng-show="numPages > 1">

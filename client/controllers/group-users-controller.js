@@ -47,16 +47,17 @@
                         }));
                 };
 
-                $scope.removeUser = function (user) {
+                $scope.remove = function (user) {
                     if (window.confirm("Are you sure you want to remove user from organization?")) {
                         $scope.deleting = true;
-                        $scope.loadingTracker.addPromise(groupService.user.remove($scope.group.name, user)
-                            .then(function () {
-                                $scope.deleting = false;
-                                $scope.loadData();
-                            }, function () {
-                                $scope.deleting = false;
-                            }));
+                        $scope.loadingTracker.addPromise(
+                            groupService.user.remove($scope.group.name, user)
+                                .then(function () {
+                                    $scope.deleting = false;
+                                    $scope.loadData();
+                                }, function () {
+                                    $scope.deleting = false;
+                                }));
                     }
                 };
             }]);

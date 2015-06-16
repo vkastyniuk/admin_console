@@ -1,20 +1,19 @@
-<div class="row org-settings-header">
+<div class="row entity-listing-header">
     <div class="col-md-3">
         Total groups: <strong>{{groups.length}}</strong>
     </div>
-    <div class="pull-right col-md-3" style="padding: 0;">
+    <div class="col-md-3 pull-right">
         <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
-               ng-model-options="{ debounce: 500 }">
+               ng-model-options="{ debounce: 100 }">
     </div>
 </div>
-
 <div class="entity-listing">
     <pre ng-show="groups.length == 0">There are no any groups.</pre>
     <div class="row entity-row" ng-repeat="group in groups | filter:searchText">
         <div class="col-md-5">
             <div class="entity-title">
                 <i class="fa fa-group"></i>
-                <a href="/groups/{{group.name}}">{{group.title}}</a>
+                <a href="/groups/{{group.name}}/settings">{{group.title}}</a>
             </div>
         </div>
         <div class="col-md-5">
@@ -22,10 +21,12 @@
                 {{group.name}}
             </div>
         </div>
-        <div class="pull-right">
-            <button class="btn btn-sm btn-danger" ng-click="removeGroup(group.name)"
-                    ng-disabled="deleting">Delete
-            </button>
+        <div class="col-md-2">
+            <div class="pull-right">
+                <button class="btn btn-sm btn-danger" ng-click="remove(group.name)"
+                        ng-disabled="deleting">Delete
+                </button>
+            </div>
         </div>
     </div>
     <div class="row pagination-panel" ng-show="numPages > 1">
@@ -35,17 +36,3 @@
         <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
     </div>
 </div>
-
-<!--<form method="post" name="newGroupForm" id="newGroupForm" ng-submit="createGroup(group)" ng-show="isOwnedOrganization" style="margin-top: 50px">
-    <div class="form-group col-md-4">
-        <input id="groupName" name="groupName" class="form-control" placeholder="Group Name" ng-model="group.name"
-               required="" ng-pattern="/^[\p{L}\p{N}\s_]{1,255}$/">
-        <span class="description">Must be alphanumeric.</span>
-    </div>
-    <div class="col-md-2">
-        <button disabled="disabled" class="btn btn-default" type="submit"
-                ng-disabled="creating || newGroupForm.$invalid || alreadyExists(group.name)">
-            Create Group
-        </button>
-    </div>
-</form>-->

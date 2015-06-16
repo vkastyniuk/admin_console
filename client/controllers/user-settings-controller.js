@@ -5,17 +5,30 @@
     angular.module('console')
         .controller('UserSettingsController', ['$scope', '$state', 'userService',
             function ($scope, $state, userService) {
-                $scope.userName = $scope.user.userName;
-                $scope.update = function () {
-                    $scope.updating = true;
-                    $scope.loadingTracker.addPromise(
-                        userService.update($scope.userName, $scope.user)
-                        .then(function () {
-                            $scope.updating = false;
-                            $state.go('index.user.settings', {user: $scope.userName});
-                        }, function () {
-                            $scope.updating = false;
-                        }));
+                $scope.save = function (user) {
+                    $scope.saving = true;
+                    if ($scope.userName) {
+                        $scope.loadingTracker.addPromise(
+                            userService.update($scope.userName, user)
+                                .then(function () {
+                                    $scope.saving = false;
+                                    $scope.userName = user.userName;
+                                    $state.go('index.user.settings', {user: $scope.userName});
+                                }, function () {
+                                    $scope.saving = false;
+                                }));
+                    } else {
+                        $scope.loadingTracker.addPromise(
+                            userService.create(user)
+                                .then(function () {
+                                    $scope.saving = false;
+                                    $scope.userName = user.userName;
+                                    $state.go('index.user.settings', {user: $scope.userName});
+                                }, function () {
+                                    $scope.saving = false;
+                                }));
+                    }
+
                 };
             }]);
 
