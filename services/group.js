@@ -109,10 +109,11 @@ service.remove = function (groupName, callback) {
         }
 
         group.remove(function (err) {
-            if (!err) {
-                logger.info("group removed");
+            if (err) {
+                return callback(err);
             }
-            return callback(err);
+
+            UserModel.update({groups: group._id}, {'$pull': {groups: group._id}}, callback);
         });
     });
 };
