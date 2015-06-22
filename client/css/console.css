@@ -1,35 +1,7 @@
-#padding-container {
-    padding: 20px;
-    padding-top: 20px;
-    padding-bottom: 6px
-}
-
-#padding-container .row {
-    margin-right: 0px;
-    margin-left: 0px
-}
-
-.panel-setting-content {
-    margin-left: 16px;
-    margin-top: 16px;
-    font-family: monospace;
-}
-
-.form-group .description {
-    margin-top: 10px;
-    display: block;
-    color: #888;
-    font-size: 12px;
-    margin-left: 10px;
-}
-
-.form-group.nested input {
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.entity-row {
-    padding: 4px;
+.entity-listing-header {
+    padding: 0 15px 10px 15px;
+    margin: 15px 0;
+    border-bottom: 1px solid #ddd;
 }
 
 .entity-listing i {
@@ -42,61 +14,12 @@
     padding: 8px 0;
 }
 
-.pagination-panel {
-    margin-top: 15px;
+.entity-row {
+    padding: 4px;
 }
 
 .control-panel {
     margin-bottom: 15px;
-}
-
-.control-panel .form-group {
-    margin-bottom: 0;
-}
-
-.control-panel .alert {
-    margin-top: 15px;
-}
-
-.entity-listing-header {
-    padding: 10px 15px;
-    margin: 15px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-.menu-profile {
-
-}
-
-.menu-profile > ul.dropdown-menu {
-    min-width: 300px;
-    margin-top: 7px;
-}
-
-.menu-profile > ul.dropdown-menu > li {
-    padding: 2px 0;
-
-}
-
-.menu-profile > ul.dropdown-menu > li > a {
-    padding: 8px 15px;
-}
-
-.menu-profile-org-item {
-    position: relative;
-}
-
-.menu-profile-org-item > .edit {
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 10px;
-}
-
-.menu-profile-org-item:hover > .edit {
-    opacity: 1;
-    transition: all 0.2s linear;
 }
 
 ul.autocompletepopup {

@@ -31,7 +31,11 @@
                         controller: 'UserController',
                         resolve: {
                             user: ['$stateParams', 'userService', function ($stateParams, userService) {
-                                return userService.load($stateParams.user);
+                                if ($stateParams.user == 'new') {
+                                    return undefined;
+                                } else {
+                                    return userService.load($stateParams.user);
+                                }
                             }]
                         }
                     })
@@ -55,7 +59,11 @@
                         controller: 'GroupController',
                         resolve: {
                             group: ['$stateParams', 'groupService', function ($stateParams, groupService) {
-                                return groupService.load($stateParams.group);
+                                if ($stateParams.group == 'new') {
+                                    return undefined;
+                                } else {
+                                    return groupService.load($stateParams.group);
+                                }
                             }]
                         }
                     })

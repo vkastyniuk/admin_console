@@ -1,13 +1,13 @@
 <div class="control-panel">
     <div class="row">
-        <form name="addUserForm" id="addUserForm" ng-submit="addUser(user.name)">
+        <form name="addUserForm" id="addUserForm" ng-submit="addUser(user.userName)">
             <div class="col-md-4">
                 <auto-complete id="userName" name="userName" class="form-control" placeholder="User Name" type="text"
                                auto-complete-callback="searchUserCallback"
                                auto-complete-item-template="{{result.userName}}"
                                auto-complete-select="userName"
                                ng-model="user.userName"
-                               ng-pattern="/^(?![0-9])([a-zA-Z0-9_]{1,255})$/"
+                               ng-pattern="/^([\w\d-\.]*)?$/"
                                required></auto-complete>
             </div>
             <div class="col-md-2">
@@ -55,10 +55,9 @@
             </div>
         </div>
     </div>
-    <div class="row pagination-panel" ng-show="numPages > 1">
+    <div ng-show="numPages > 1">
         <pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize"
                     class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"
                     ng-change="pageChanged()"/>
-        <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
     </div>
 </div>

@@ -3,8 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('GroupsController', ['$scope', '$state', 'groupService',
-            function ($scope, $state, groupService) {
+        .controller('GroupsController', ['$rootScope', '$scope', '$state', 'groupService',
+            function ($rootScope, $scope, $state, groupService) {
                 $scope.currentPage = 1;
                 $scope.itemsPerPage = 25;
                 $scope.maxSize = 5;
@@ -27,6 +27,10 @@
                     $scope.loadData();
                 };
 
+                $scope.create = function () {
+                    $state.go('index.group.settings', {group: 'new'});
+                };
+
                 $scope.remove = function (user) {
                     if (window.confirm('Are you sure you want to remove ' + user + ' ?')) {
                         $scope.deleting = true;
@@ -34,8 +38,10 @@
                             .then(function () {
                                 $scope.deleting = false;
                                 $scope.loadData();
-                            }, function () {
+                                $rootScope.$broadcast('console.messenger.success', 'Group was successfully removed.');
+                            }, function (error) {
                                 $scope.deleting = false;
+                                $rootScope.$broadcast("console.messenger.error", error.message);
                             }));
                     }
                 };

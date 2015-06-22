@@ -3,8 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('UsersController', ['$scope', '$state', 'userService',
-            function ($scope, $state, userService) {
+        .controller('UsersController', ['$rootScope', '$scope', '$state', 'userService',
+            function ($rootScope, $scope, $state, userService) {
                 $scope.currentPage = 1;
                 $scope.itemsPerPage = 25;
                 $scope.maxSize = 5;
@@ -27,24 +27,9 @@
                     $scope.loadData();
                 };
 
-                /*$scope.inviteUser = function (user) {
-                 $scope.inviting = true;
-                 $scope.loadingTracker.addPromise(orgService.member.invite($scope.organization.name, user)
-                 .then(function (data) {
-                 $scope.inviting = false;
-                 delete $scope.user;
-
-                 if (data) {
-                 $scope.successMessage = user + ' was invited';
-                 $scope.loadData();
-                 } else {
-                 $scope.successMessage = 'Invitation was sent to ' + user;
-                 }
-                 }, function () {
-                 $scope.inviting = false;
-                 $scope.successMessage = '';
-                 }));
-                 };*/
+                $scope.create = function () {
+                    $state.go('index.user.settings', {user: 'new'});
+                };
 
                 $scope.remove = function (user) {
                     if (window.confirm('Are you sure you want to remove ' + user + ' ?')) {
@@ -53,8 +38,10 @@
                             .then(function () {
                                 $scope.deleting = false;
                                 $scope.loadData();
-                            }, function () {
+                                $rootScope.$broadcast('console.messenger.success', 'User was successfully removed.');
+                            }, function (error) {
                                 $scope.deleting = false;
+                                $rootScope.$broadcast("console.messenger.error", error.message);
                             }));
                     }
                 };

@@ -3,8 +3,8 @@
 (function (angular) {
 
     angular.module('console')
-        .controller('GroupUsersController', ['$scope', '$state', 'groupService',
-            function ($scope, $state, groupService) {
+        .controller('GroupUsersController', ['$rootScope', '$scope', '$state', 'userService', 'groupService',
+            function ($rootScope, $scope, $state, userService, groupService) {
                 $scope.currentPage = 1;
                 $scope.itemsPerPage = 25;
                 $scope.maxSize = 5;
@@ -16,7 +16,6 @@
                             $scope.users = data.content;
                         }));
                 };
-                $scope.loadData();
 
                 $scope.$watch("searchText", function () {
                     $scope.loadData();
@@ -26,13 +25,13 @@
                     $scope.loadData();
                 };
 
-                /*$scope.searchUserCallback = function (data) {
-                 return groupService.user.loadPage($scope.organization.name, 1, 10, data.query)
-                 .then(function (response) {
-                 return response.content;
-                 }
-                 );
-                 };*/
+                $scope.searchUserCallback = function (data) {
+                    return userService.loadPage(1, 10, data.query)
+                        .then(function (response) {
+                            return response.content;
+                        }
+                    );
+                };
 
                 $scope.addUser = function (user) {
                     $scope.adding = true;
@@ -40,10 +39,11 @@
                         .then(function () {
                             $scope.adding = false;
                             $scope.loadData();
-
+                            $rootScope.$broadcast('console.messenger.success', 'User was successfully added to the group.');
                             delete $scope.user;
-                        }, function () {
+                        }, function (error) {
                             $scope.adding = false;
+                            $rootScope.$broadcast("console.messenger.error", error.message);
                         }));
                 };
 
@@ -55,8 +55,10 @@
                                 .then(function () {
                                     $scope.deleting = false;
                                     $scope.loadData();
-                                }, function () {
+                                    $rootScope.$broadcast('console.messenger.success', 'User was successfully removed from the group.');
+                                }, function (error) {
                                     $scope.deleting = false;
+                                    $rootScope.$broadcast("console.messenger.error", error.message);
                                 }));
                     }
                 };

@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+    <li>
+        <i class="fa fa-chevron-left"></i> Users
+    </li>
+</ol>
 <div class="row entity-listing-header">
     <div class="col-md-3">
         Total users: <strong>{{totalItems}}</strong>
@@ -6,6 +11,8 @@
         <input class="form-control" placeholder="Filter Criteria..." ng-model="searchText"
                ng-model-options="{ debounce: 100 }">
     </div>
+    <button class="btn btn-success pull-right" ng-click="create()"><i class="fa fa-plus"></i>
+    </button>
 </div>
 <div class="entity-listing">
     <div class="row entity-row" ng-repeat="user in users">
@@ -38,10 +45,9 @@
             </div>
         </div>
     </div>
-    <div class="row pagination-panel" ng-show="numPages > 1">
+    <div ng-show="numPages > 1">
         <pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" max-size="maxSize"
                     class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"
                     ng-change="pageChanged()"/>
-        <span class="pull-right">Page: {{currentPage}} / {{numPages}}</span>
     </div>
 </div>

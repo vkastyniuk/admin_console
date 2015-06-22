@@ -27,8 +27,12 @@
             </li>
         </ul>
     </div>
+    <div class="col-md-4 col-md-offset-4 text-center" style="position: fixed">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" style="border:1px solid transparent;border-radius:4px">
+            {{alert.message}}
+        </alert>
+    </div>
 </header>
-
 <div class="container bs-docs-container" ui-view>
 </div>
 
@@ -41,7 +45,6 @@
 <script src="/libs/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="/libs/angular-promise-tracker/promise-tracker.js"></script>
 <script src="/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-<script src="/libs/xregexp/xregexp-all.js"></script>
 
 <script src="/config/properties.js"></script>
 <script src="/directives/directives.js"></script>

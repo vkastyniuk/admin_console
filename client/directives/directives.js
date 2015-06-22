@@ -21,33 +21,6 @@
             };
         })
 
-        /*.directive('ngPattern', function () {
-            return {
-                restrict: 'A',
-                require: '?ngModel',
-                priority: 100,
-                link: function (scope, elm, attr, ctrl) {
-                    if (!ctrl) return;
-
-                    var regexp, patternExp = attr.ngPattern || attr.pattern;
-                    attr.$observe('pattern', function (regex) {
-                        if (regex && regex.length > 0) {
-                            regex = new RegExp('^' + regex + '$');
-                        }
-
-                        if (regex && regex.test) {
-                            regexp = XRegExp(regex.source) || undefined;
-                            ctrl.$validate();
-                        }
-                    });
-
-                    ctrl.$validators.pattern = function (value) {
-                        return ctrl.$isEmpty(value) || regexp.test(value);
-                    };
-                }
-            };
-        })
-
         .directive("autoComplete", ["$compile", "$timeout", function ($compile, $timeout) {
             return {
                 restrict: 'E',
@@ -202,6 +175,6 @@
                     document.body.appendChild(searchPopup[0]);
                 }
             }
-        }]);*/
+        }]);
 
 }(angular));
