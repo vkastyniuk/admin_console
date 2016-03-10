@@ -6,7 +6,6 @@
          listen         80;
          server_name    localhost;
          access_log     /var/log/nginx/host.access.log;
-         #root /home/vkastyniuk/admiral-webapp;
          root           /home/vkastyniuk/admin_console/client;
 
          location / {
